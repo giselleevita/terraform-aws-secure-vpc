@@ -6,6 +6,8 @@
 
 > Terraform module for a production-hardened AWS VPC — private/public/isolated subnet segmentation, NAT gateways, VPC Flow Logs to S3, default-deny security groups, and optional private VPC endpoints.
 
+For the hiring-focused project narrative, see [docs/CASE_STUDY.md](docs/CASE_STUDY.md).
+
 Drop this module into any AWS account to establish a network security baseline aligned with CIS AWS Foundations Benchmark and NIST SP 800-53.
 
 ---
