@@ -12,6 +12,34 @@ Drop this module into any AWS account to establish a network security baseline a
 
 ---
 
+## Reviewer Quick Start
+
+For a fast technical review:
+
+1. Read the control table below to see which AWS security decisions are enforced by the module.
+2. Run `terraform fmt -check`, `terraform validate`, and the repository security checks from CI.
+3. Inspect [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) for the client-style scenario and tradeoffs.
+4. Compare this module with [`terraform-aws-iam-baseline`](https://github.com/giselleevita/terraform-aws-iam-baseline) for the full network + identity baseline.
+
+This project is intended to show infrastructure-as-code judgment: segmented subnet tiers, audit-ready flow logs, private service access, default-deny posture, and compliance mapping.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TD
+    Internet[Internet] --> IGW[Internet Gateway]
+    IGW --> Public[Public subnets<br/>load balancers / bastion]
+    Public --> NAT[NAT gateways per AZ]
+    NAT --> Private[Private subnets<br/>apps / workers]
+    Private --> Endpoints[VPC endpoints<br/>S3 / DynamoDB]
+    Isolated[Isolated subnets<br/>databases / internal services]
+    VPC[VPC Flow Logs] --> Logs[S3 / CloudWatch logs]
+```
+
+---
+
 ## What It Enforces
 
 | Control | Implementation |
