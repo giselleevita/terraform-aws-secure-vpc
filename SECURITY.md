@@ -10,7 +10,7 @@ If you discover a security vulnerability in this module, please email security c
 
 ## Security Scope
 
-This module demonstrates **production-grade VPC architecture** with focus on network segmentation, visibility, and compliance readiness. It is designed to show:
+This module demonstrates a focused **two-AZ VPC baseline** with network segmentation, visibility, and compliance-oriented defaults. It is designed to show:
 - Network segmentation with public/private tiers
 - Flow log visibility and compliance
 - WAF-ready infrastructure
@@ -18,7 +18,7 @@ This module demonstrates **production-grade VPC architecture** with focus on net
 
 ### What This Module Does
 - Creates a VPC with public and private subnets across 2 AZs
-- Configures routing and gateways for high availability
+- Configures routing, an internet gateway, and a cost-conscious single NAT gateway
 - Enables VPC Flow Logs for network visibility
 - Provides IAM role and policies for flow log delivery
 - Attaches optional WAF ACL to Application Load Balancer
@@ -26,7 +26,7 @@ This module demonstrates **production-grade VPC architecture** with focus on net
 
 ### What This Module Does NOT Do
 - Manage EC2 instances or compute resources
-- Configure S3 buckets for flow log storage (must pre-exist)
+- Configure S3 buckets for flow log storage
 - Provide application-level security (WAF rules are template only)
 - Manage route53 DNS or domain configuration
 - Handle inter-VPC peering or transit gateway setup
@@ -36,7 +36,7 @@ This module demonstrates **production-grade VPC architecture** with focus on net
 
 ## Assumptions & Limitations
 
-1. **S3 Bucket Pre-exists**: VPC Flow Logs require an S3 bucket for storage; create this separately
+1. **CloudWatch Flow Logs**: The current implementation sends VPC Flow Logs to CloudWatch Logs, not S3
 2. **Two AZ Requirement**: This module enforces exactly 2 Availability Zones for redundancy (non-negotiable by design)
 3. **IP CIDR Planning**: CIDR ranges must not overlap with existing VPCs or on-premises networks
 4. **WAF is Optional**: Web Application Firewall integration is conditional; omit if not needed
@@ -70,9 +70,9 @@ Monitor the AWS provider changelog for security updates: https://github.com/hash
 
 ### Flow Logs
 - Captures all network traffic (accepts and rejects)
-- Logs to CloudWatch Logs group with configurable retention
-- IAM role has minimal permissions (S3 write only)
-- Critical for compliance audits (HIPAA, PCI-DSS, SOC 2)
+- Logs to a CloudWatch Logs group with configurable retention
+- IAM role has minimal CloudWatch Logs write permissions
+- Supports audit and incident-review workflows
 
 ---
 
@@ -83,7 +83,7 @@ All changes to this module are validated with:
 - `terraform validate` — Syntax and schema validation
 - `tflint` — Best practices linting (catches common VPC misconfigurations)
 - `tfsec` — Security scanning for network vulnerabilities
-- `examples/basic/` — Full integration test with real values
+- `examples/basic/` — Example configuration with real module inputs
 
 Before using in production:
 1. Review the VPC structure in AWS Console (VPC Dashboard)
