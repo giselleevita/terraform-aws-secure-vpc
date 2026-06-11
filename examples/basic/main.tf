@@ -5,7 +5,7 @@ provider "aws" {
 module "secure_vpc" {
   source = "../../"
 
-  name_prefix = "portfolio-secure"
+  name_prefix = "example-secure"
 
   vpc_cidr             = "10.50.0.0/16"
   public_subnet_cidrs  = ["10.50.1.0/24", "10.50.2.0/24"]
