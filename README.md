@@ -6,7 +6,7 @@
 
 > Terraform module for a two-AZ AWS VPC with public/private subnet tiers, a cost-conscious single NAT gateway, an ALB security group, optional WAF association, and CloudWatch VPC Flow Logs.
 
-For the hiring-focused project narrative, see [docs/CASE_STUDY.md](docs/CASE_STUDY.md).
+For design rationale and limitations, see [docs/CASE_STUDY.md](docs/CASE_STUDY.md).
 
 This repository demonstrates a reviewable VPC baseline, not a complete landing zone. It is intentionally explicit about what is implemented today and what should be added for higher-availability or stricter production environments.
 
