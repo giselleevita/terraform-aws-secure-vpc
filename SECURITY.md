@@ -111,7 +111,7 @@ Before using in production:
 1. **CIDR Isolation**: Plan IP ranges to avoid conflicts with existing VPCs, on-premises networks, and multi-region deployments
 2. **Security Group Audits**: Regularly review security group rules—don't open unnecessary ports
 3. **Flow Log Monitoring**: Don't just ingest logs; set up CloudWatch Alarms for suspicious patterns
-4. **IAM Least Privilege**: Flow log role grants only S3:PutObject (not Read or Delete)
+4. **IAM Least Privilege**: Flow log role grants only CloudWatch Logs write (`logs:CreateLogGroup`, `CreateLogStream`, `PutLogEvents`, and the two matching `Describe*`), scoped to the module's flow-log log group — no S3, read, or delete permissions
 5. **WAF Rules**: If enabling WAF, configure rule groups appropriate for your workload (OWASP Top 10, IP reputation, rate limiting)
 6. **VPC Endpoint Strategy**: For services like S3, DynamoDB, ECR—add VPC endpoints to avoid internet egress
 7. **Compliance Validation**: Use AWS Config rules to continuously validate VPC configuration matches policy
