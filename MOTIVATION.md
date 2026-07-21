@@ -37,7 +37,7 @@ Public workloads (ALB, NAT gateway) have a different threat model than private w
 Private instances need outbound internet access (patches, external APIs). A NAT gateway in the public subnet provides that escape route without exposing private instances to inbound internet traffic.
 
 ### Why optional WAF?
-WAF is powerful but not always necessary. The ALB is ready for it (proper security groups, access logging path), but you enable WAF only when you need it. This avoids lock-in and unnecessary costs.
+WAF is powerful but not always necessary. The ALB is ready for it (proper security groups), but you enable WAF only when you need it. This avoids lock-in and unnecessary costs.
 
 ## Real-World Usage
 

@@ -1,7 +1,7 @@
 # terraform-aws-secure-vpc
 
+[![CI](https://github.com/giselleevita/terraform-aws-secure-vpc/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/giselleevita/terraform-aws-secure-vpc/actions/workflows/terraform-ci.yml)
 ![Terraform](https://img.shields.io/badge/terraform-%3E%3D1.5-purple)
-![AWS](https://img.shields.io/badge/AWS-VPC%20%7C%20Flow%20Logs-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 > Terraform module for a two-AZ AWS VPC with public/private subnet tiers, a cost-conscious single NAT gateway, an ALB security group, optional WAF association, and CloudWatch VPC Flow Logs.
@@ -12,14 +12,19 @@ This repository demonstrates a reviewable VPC baseline, not a complete landing z
 
 ---
 
-## Reviewer Quick Start
+## Quick Start
 
-For a fast technical review:
+```bash
+git clone https://github.com/giselleevita/terraform-aws-secure-vpc.git
+cd terraform-aws-secure-vpc/examples/basic
+terraform init
+terraform plan
+```
 
-1. Inspect `main.tf` for the subnet, route table, NAT, ALB, and flow-log resources.
-2. Inspect `variables.tf` for the fixed two-AZ input contract and default ALB ingress.
-3. Run `terraform fmt -check`, `terraform validate`, `tflint`, and `tfsec` through the existing CI workflow.
-4. Read [SECURITY.md](SECURITY.md) for assumptions and known limitations.
+Reviewing rather than deploying? Inspect `main.tf` (subnets, routing, NAT, ALB,
+flow logs) and `variables.tf` (two-AZ input contract), run the CI checks
+(`terraform fmt -check`, `validate`, `tflint`, `tfsec`), and read
+[SECURITY.md](SECURITY.md) for assumptions and known limitations.
 
 ---
 
@@ -73,7 +78,7 @@ For production environments with strict availability requirements, add NAT per A
 
 ```hcl
 module "secure_vpc" {
-  source = "./"
+  source = "git::https://github.com/giselleevita/terraform-aws-secure-vpc.git?ref=v0.1.0"
 
   name_prefix        = "demo"
   vpc_cidr           = "10.20.0.0/16"
