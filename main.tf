@@ -33,6 +33,18 @@ data "aws_iam_policy_document" "flow_logs_permissions" {
       aws_cloudwatch_log_group.flow_logs.arn
     ]
   }
+
+  statement {
+    sid    = "AllowKMSEncryptionForLogs"
+    effect = "Allow"
+
+    actions = [
+      "kms:Decrypt",
+      "kms:GenerateDataKey"
+    ]
+
+    resources = [aws_kms_key.flow_logs.arn]
+  }
 }
 
 locals {
@@ -197,9 +209,25 @@ resource "aws_wafv2_web_acl_association" "alb" {
   web_acl_arn  = var.waf_web_acl_arn
 }
 
+resource "aws_kms_key" "flow_logs" {
+  description             = "KMS key for encrypting VPC Flow Logs"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+
+  tags = merge(var.tags, {
+    Name = "${var.name_prefix}-flow-logs-key"
+  })
+}
+
+resource "aws_kms_alias" "flow_logs" {
+  name          = "alias/${var.name_prefix}-flow-logs"
+  target_key_id = aws_kms_key.flow_logs.key_id
+}
+
 resource "aws_cloudwatch_log_group" "flow_logs" {
   name              = "/aws/vpc/${var.name_prefix}/flow-logs"
   retention_in_days = var.flow_logs_retention_days
+  kms_key_id        = aws_kms_key.flow_logs.arn
 
   tags = merge(var.tags, {
     Name = "${var.name_prefix}-flow-logs"
