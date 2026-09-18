@@ -75,9 +75,10 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "private" {
   count = 2
 
-  vpc_id            = aws_vpc.this.id
-  cidr_block        = var.private_subnet_cidrs[count.index]
-  availability_zone = local.azs[count.index]
+  vpc_id                  = aws_vpc.this.id
+  cidr_block              = var.private_subnet_cidrs[count.index]
+  availability_zone       = local.azs[count.index]
+  map_public_ip_on_launch = false
 
   tags = merge(var.tags, {
     Name = "${var.name_prefix}-private-${count.index + 1}"
@@ -191,7 +192,7 @@ resource "aws_lb" "this" {
 }
 
 resource "aws_wafv2_web_acl_association" "alb" {
-  count = var.waf_web_acl_arn == null || trim(var.waf_web_acl_arn, " ") == "" ? 0 : 1
+  count = trim(var.waf_web_acl_arn != null ? var.waf_web_acl_arn : "", " ") == "" ? 0 : 1
 
   resource_arn = aws_lb.this.arn
   web_acl_arn  = var.waf_web_acl_arn

@@ -53,7 +53,7 @@ flowchart TD
 | Edge security | ALB security group allowing 80/443 from `alb_ingress_cidrs` |
 | Load balancer | Public Application Load Balancer with optional WAFv2 Web ACL association |
 | Visibility | VPC Flow Logs for all traffic to a CloudWatch Logs group |
-| Validation | Terraform fmt/validate, TFLint, and tfsec in CI |
+| Validation | Terraform native policy tests plus fmt/validate, TFLint, and tfsec in CI |
 
 ---
 
@@ -138,7 +138,6 @@ module "secure_vpc" {
 - Add NAT-per-AZ mode.
 - Add VPC endpoints for S3, DynamoDB, ECR, SSM, KMS, and CloudWatch Logs.
 - Add ALB access logging.
-- Add Terraform tests for route table, subnet, and security group expectations.
 
 ---
 
